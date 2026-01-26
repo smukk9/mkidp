@@ -1,0 +1,54 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.so.*
+*.dylib
+bin/
+dist/
+
+# Build outputs
+tmp/
+*.out
+*.test
+
+# IDE and editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Dependency management
+vendor/
+go.sum
+
+# Environment variables - NEVER COMMIT THESE
+.env
+.env.local
+.env.*.local
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage.out
+*.coverprofile
+
+# Temporary files
+*.tmp
+*.temp
