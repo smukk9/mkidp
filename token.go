@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -19,20 +20,35 @@ func tokenEndpoint(w http.ResponseWriter, r *http.Request) {
 	clientSecret := r.FormValue("client_secret")
 	grantType := r.FormValue("grant_type")
 
-	if grantType != "client_credentials" {
+	fmt.Println(grantType)
+
+	var err error
+	var access_token string
+
+	switch grantType {
+
+	case "client_credentials":
+
+		access_token, err = handleClientCredentials(clientId, clientSecret)
+
+	case "password":
+
+		username := r.FormValue("username")
+		password := r.FormValue("password")
+		access_token, err = handlePasswordGrantType(clientId, clientSecret, username, password)
+
+	default:
 		http.Error(w, "Unsupported grant type", http.StatusBadRequest)
 		return
 	}
 
-	atoken, err := handleClientCredentials(clientId, clientSecret)
-
 	if err != nil {
-		http.Error(w, "Invalid clinet credentilas", http.StatusUnauthorized)
+		http.Error(w, "Invalid client credentilas", http.StatusUnauthorized)
 		return
 	}
 
 	var res TokenResponse
-	res.AccessToken = atoken
+	res.AccessToken = access_token
 	res.TokenType = "Bearer"
 	res.Expiry = "299"
 

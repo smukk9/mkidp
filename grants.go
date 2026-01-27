@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"math/rand"
 	"time"
 )
@@ -45,4 +46,33 @@ func generateToken(clientId string) string {
 		b[i] = charset[rand.Intn(len(charset))]
 	}
 	return string(b)
+}
+
+// verifies credentilas and return error or token
+func handlePasswordGrantType(clientId, clientSecret, username, password string) (accesstoken string, err error) {
+
+	if !verifyCredentials(clientId, clientSecret) {
+		fmt.Println("invalid credentilas")
+		return "", errors.New("Invalid client credentilas")
+	}
+
+	if !verifyUsernamePassword(username, password) {
+		fmt.Println("invalid username")
+		return "", errors.New("invalid username and password")
+	}
+
+	return generateToken(clientId), nil
+
+}
+
+func verifyUsernamePassword(username, password string) bool {
+
+	for _, c := range UserDB {
+		// fmt.Println(c.Id + c.Name)
+		if c.Username == username && c.Password == password {
+			return true
+		}
+	}
+	return false
+
 }
