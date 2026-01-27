@@ -4,7 +4,7 @@ A fun learning project to explore the Authentication and Authorization world.
 
 ## Overview
 
-This is a minimal OAuth2 Identity Provider (IdP) implementation built in Go. The goal is to understand how authentication and authorization flows work, starting with the basics and gradually adding more complex features.
+This is a minimal OAuth2 Identity Provider (IdP) implementation built in Go. The goal is to have fun and understand how authentication and authorization works, starting with the basics and gradually adding more complex features.
 
 
 ## Roadmap
