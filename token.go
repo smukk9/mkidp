@@ -6,6 +6,12 @@ import (
 	"net/http"
 )
 
+type TokenDB struct {
+	AccessToken string
+	ExpireAt    string
+	CreatedAt   string
+}
+
 type TokenResponse struct {
 	AccessToken string `json:"access_token"`
 	Expiry      string `json:"expiry"`

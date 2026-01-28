@@ -21,13 +21,15 @@ func handleClientCredentials(clientId, clientSecret string) (accesstoken string,
 		return "", errors.New("Invalid client credentilas")
 	}
 
+	//TODO ensure the token grant_type as well by getting the clientDB data
+
 	return generateToken(clientId), nil
 
 }
 
 func verifyCredentials(clientId, clientSecret string) bool {
 
-	for _, c := range ClientsStore {
+	for _, c := range clientDB {
 		// fmt.Println(c.Id + c.Name)
 		if c.Name == clientId && c.Secret == clientSecret {
 			return true
