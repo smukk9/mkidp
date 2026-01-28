@@ -33,13 +33,6 @@ go run .
 
 Server starts on `http://localhost:8080`
 
-## Endpoints
-
-### Get Clients
-
-```bash
-GET /api/v1/clients
-```
 
 ### OAuth Token Endpoint
 
@@ -47,21 +40,6 @@ GET /api/v1/clients
 POST /oauth/token
 ```
 
-Request (form-encoded):
-```
-client_id=1
-client_secret=secret1
-grant_type=client_credentials
-```
-
-Response:
-```json
-{
-  "access_token": "random-token-here",
-  "token_type": "Bearer",
-  "expiry": "3600"
-}
-```
 
 ## Learning Goals
 
