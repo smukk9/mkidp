@@ -18,6 +18,7 @@ type Client struct {
 	TokenExpiry  int    `json:"token_expiry"` // in seconds
 	CreatedAt    string `json:"created_at"`
 	LastModified string `json:"last_modified"`
+	
 }
 
 type ClientRequest struct {

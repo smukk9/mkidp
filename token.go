@@ -7,9 +7,10 @@ import (
 )
 
 type TokenDB struct {
-	AccessToken string
-	ExpireAt    string
-	CreatedAt   string
+	AccessToken     string
+	Thumbprint_DPOP string
+	ExpireAt        string
+	CreatedAt       string
 }
 
 type TokenResponse struct {
