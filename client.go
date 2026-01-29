@@ -18,7 +18,6 @@ type Client struct {
 	TokenExpiry  int    `json:"token_expiry"` // in seconds
 	CreatedAt    string `json:"created_at"`
 	LastModified string `json:"last_modified"`
-	
 }
 
 type ClientRequest struct {
@@ -37,7 +36,7 @@ type ClientStore []Client
 var clientDB = ClientStore{
 	{
 		ID:           "1",
-		Name:         "Web Application",
+		Name:         "Web_Application",
 		Secret:       "secret_key_1",
 		RedirectURI:  "http://localhost:3000/callback",
 		TokenType:    "Bearer",
@@ -47,7 +46,7 @@ var clientDB = ClientStore{
 	},
 	{
 		ID:           "2",
-		Name:         "Mobile App",
+		Name:         "Mobile_App",
 		Secret:       "secret_key_2",
 		RedirectURI:  "mobileapp://callback",
 		TokenType:    "Bearer",
@@ -57,7 +56,7 @@ var clientDB = ClientStore{
 	},
 	{
 		ID:           "3",
-		Name:         "Desktop Client",
+		Name:         "Desktop_Client",
 		Secret:       "secret_key_3",
 		RedirectURI:  "http://localhost:5000/auth/callback",
 		TokenType:    "Bearer",
@@ -105,4 +104,20 @@ func CreateClient(w http.ResponseWriter, r *http.Request) {
 
 func generateID() string {
 	return uuid.New().String()
+}
+
+func GetClientByID(w http.ResponseWriter, r *http.Request) {
+
+	clientId := r.PathValue("id")
+
+	for _, c := range clientDB {
+
+		if c.ID == clientId {
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(c)
+			return
+		}
+	}
+	http.Error(w, "Client Not found", http.StatusNotFound)
+
 }

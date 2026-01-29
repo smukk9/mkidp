@@ -1,5 +1,13 @@
 package main
 
+import (
+	"encoding/json"
+	"net/http"
+	"time"
+
+	"github.com/google/uuid"
+)
+
 type User struct {
 	ID           string `json:"id"`
 	Username     string `json:"username"`
@@ -7,6 +15,12 @@ type User struct {
 	Email        string `json:"email"`
 	CreatedAt    string `json:"created_at"`
 	LastModified string `json:"last_modified"`
+}
+
+type UserRequest struct {
+	Username string  `json:"username"`
+	Password string  `json:"password"`
+	Email    *string `json:"email"`
 }
 
 // UserStore is a store for managing users
@@ -39,8 +53,52 @@ var UserDB = UserStore{
 	},
 }
 
+//get users
+
+func GetUsers(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(UserDB)
+}
+
+// add user
+func AddUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	var u User
+	err := json.NewDecoder(r.Body).Decode(&u)
+
+	if err != nil {
+		http.Error(w, "Unable to decode the user from the body", http.StatusBadRequest)
+	}
+
+	if len(u.Password) < 6 {
+		http.Error(w, "Password length should be more that 5", http.StatusBadRequest)
+	}
+
+	//TODO: check for user exists
+
+	u.CreatedAt = time.Now().Format(time.RFC3339)
+	u.LastModified = time.Now().Format(time.RFC3339)
+	u.ID = uuid.New().String()
+	UserDB = append(UserDB, User{})
+	//for now lets keep this
+	json.NewEncoder(w).Encode(u)
+}
+
 //get user
 
-//add user
+func GetUserById(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	id := r.PathValue("id")
 
-//delete user
+	for _, u := range UserDB {
+
+		if u.ID == id {
+			json.NewEncoder(w).Encode(u)
+			return
+		}
+	}
+
+	http.Error(w, "User Not found", http.StatusNotFound)
+
+}

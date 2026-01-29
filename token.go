@@ -23,6 +23,9 @@ func tokenEndpoint(w http.ResponseWriter, r *http.Request) {
 
 	r.ParseForm()
 
+	if r.Header.Get("dpop") != "" {
+		HandelDpopTokenRequest(r)
+	}
 	clientId := r.FormValue("client_id")
 	clientSecret := r.FormValue("client_secret")
 	grantType := r.FormValue("grant_type")
